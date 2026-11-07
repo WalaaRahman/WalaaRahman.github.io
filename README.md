@@ -1,59 +1,48 @@
-# Portfolio
+# myPortfolio
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 22.2.5.
+this repo includes my frontend portfolio
 
-## Development server
+Personal portfolio of **Walaa El Gohary**, Frontend Developer, built with **Angular 22** (standalone components and Signals), **Tailwind CSS v4** and server-side rendering / prerendering.
 
-To start a local development server, run:
+## Features
 
-```bash
-ng serve
-```
+- **Theming:** light/dark mode plus 3 color palettes (Burgundy, Slate Blue, Rosewood). The choice is saved and applied before first paint, so the page doesn't flash the wrong theme.
+- **Sections:** a hero with a looping typewriter code card, an experience timeline, education and training, core skills with brand icons and category filters, selected projects with live-site screenshots and a lightbox, and contact via email and WhatsApp.
+- **Animations:** scroll-reveal, a cursor spotlight on cards, and a timeline line that fills as you scroll. All of these respect `prefers-reduced-motion`.
+- **Responsive and accessible:** a mobile menu, keyboard support (Esc and arrow keys in the lightbox), ARIA roles and labels.
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
-
-## Code scaffolding
-
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+## Getting started
 
 ```bash
-ng generate component component-name
+npm install
+npm start          # dev server at http://localhost:4200
+npm run build      # production build + prerender → dist/portfolio
+npm test           # unit tests (Vitest)
 ```
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+> Restart `ng serve` after changing `angular.json`, `tsconfig*.json`, `.postcssrc.json`, or installing packages. The dev server only reads those files at startup.
 
-```bash
-ng generate --help
+## Editing content
+
+All text comes from typed data files in [`src/app/data/`](src/app/data/):
+
+| File | Content |
+| --- | --- |
+| `profile.ts` | Name, title, contact details, GitHub, summary, hero stats |
+| `experience.ts` | Jobs, dates, highlights, tags |
+| `education.ts` | Degree, training programs, certification |
+| `skills.ts` | Skill categories and icons ([simple-icons](https://simpleicons.org) + custom line icons) |
+| `projects.ts` | Projects, links, descriptions, tags. Screenshots live in `public/projects/` |
+
+Palette colors are CSS variables in [`src/styles.css`](src/styles.css), and the palette list is in [`src/app/core/theme.service.ts`](src/app/core/theme.service.ts).
+
+## Project structure
+
 ```
-
-## Building
-
-To build the project run:
-
-```bash
-ng build
+src/app/
+├── core/       theme.service.ts (mode + palette signals)
+├── data/       content (see above)
+├── layout/     navbar, footer
+├── sections/   hero, experience, education, skills, projects, contact
+└── shared/     reveal & spotlight directives, section heading
 ```
-
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
-
-## Running unit tests
-
-To execute unit tests with the [Vitest](https://vitest.dev/) test runner, use the following command:
-
-```bash
-ng test
-```
-
-## Running end-to-end tests
-
-For end-to-end (e2e) testing, run:
-
-```bash
-ng e2e
-```
-
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
