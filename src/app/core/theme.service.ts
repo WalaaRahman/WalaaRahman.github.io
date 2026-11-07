@@ -8,6 +8,8 @@ export interface PaletteSwatch {
   primary: string;
   secondary: string;
   accent: string;
+  /** Text/icon color on top of `primary` (used for the favicon's W). */
+  onPrimary: string;
 }
 
 export interface Palette {
@@ -22,20 +24,20 @@ export const PALETTES: readonly Palette[] = [
   {
     id: 'burgundy',
     name: 'Burgundy',
-    light: { primary: '#5B1722', secondary: '#8A6255', accent: '#8A6255' },
-    dark: { primary: '#A64D5B', secondary: '#C5ADA0', accent: '#C5ADA0' },
+    light: { primary: '#5B1722', secondary: '#8A6255', accent: '#8A6255', onPrimary: '#FFFFFF' },
+    dark: { primary: '#A64D5B', secondary: '#C5ADA0', accent: '#C5ADA0', onPrimary: '#FFFFFF' },
   },
   {
     id: 'slate',
     name: 'Slate Blue',
-    light: { primary: '#344B63', secondary: '#587A91', accent: '#D4B98A' },
-    dark: { primary: '#85A9C0', secondary: '#A8C0D0', accent: '#D4B98A' },
+    light: { primary: '#344B63', secondary: '#587A91', accent: '#D4B98A', onPrimary: '#FFFFFF' },
+    dark: { primary: '#85A9C0', secondary: '#A8C0D0', accent: '#D4B98A', onPrimary: '#141D27' },
   },
   {
     id: 'rosewood',
     name: 'Rosewood',
-    light: { primary: '#49332D', secondary: '#A16F69', accent: '#C49A91' },
-    dark: { primary: '#BD8984', secondary: '#D0AAA0', accent: '#BD8984' },
+    light: { primary: '#49332D', secondary: '#A16F69', accent: '#C49A91', onPrimary: '#FFFFFF' },
+    dark: { primary: '#BD8984', secondary: '#D0AAA0', accent: '#BD8984', onPrimary: '#1D1717' },
   },
 ];
 
@@ -67,6 +69,7 @@ export class ThemeService {
       root.classList.toggle('dark', mode === 'dark');
       root.setAttribute('data-palette', palette);
       root.style.colorScheme = mode;
+      this.updateFavicon(mode === 'dark' ? this.palette().dark : this.palette().light);
       try {
         localStorage.setItem(MODE_KEY, mode);
         localStorage.setItem(PALETTE_KEY, palette);
@@ -82,6 +85,22 @@ export class ThemeService {
 
   setPalette(id: PaletteId): void {
     this.paletteId.set(id);
+  }
+
+  /** Redraws the "W" tab icon and browser theme color in the active palette. */
+  private updateFavicon(swatch: PaletteSwatch): void {
+    const svg =
+      `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">` +
+      `<rect width="64" height="64" rx="15" fill="${swatch.primary}"/>` +
+      `<path d="M13 19 L23 46 L32 25 L41 46 L51 19" fill="none" stroke="${swatch.onPrimary}" ` +
+      `stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
+    const link = this.document.querySelector<HTMLLinkElement>(
+      'link[rel="icon"][type="image/svg+xml"]',
+    );
+    if (link) link.href = 'data:image/svg+xml,' + encodeURIComponent(svg);
+    this.document
+      .querySelector('meta[name="theme-color"]')
+      ?.setAttribute('content', swatch.primary);
   }
 
   private readInitialMode(): ThemeMode {
