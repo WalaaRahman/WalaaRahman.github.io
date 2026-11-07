@@ -1,0 +1,95 @@
+<section id="projects" class="relative isolate py-24 sm:py-28" aria-labelledby="projects-title">
+  <div class="pointer-events-none absolute inset-0 -z-10 bg-surface/50" aria-hidden="true"></div>
+
+  <div class="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
+    <app-section-heading
+      eyebrow="Portfolio"
+      title="Selected Projects"
+      subtitle="Live products I've helped build — from marketplaces and admin dashboards to marketing sites and e-commerce."
+      headingId="projects-title"
+    />
+
+    <div class="mt-16 grid gap-6 md:grid-cols-2">
+      @for (project of featured; track project.name) {
+        <div appReveal="zoom" class="md:col-span-2">
+          <app-project-card [project]="project" [featured]="true" (preview)="open(project)" />
+        </div>
+      }
+      @for (project of others; track project.name; let i = $index) {
+        <div appReveal="up" [revealDelay]="(i % 2) * 120">
+          <app-project-card [project]="project" (preview)="open(project)" />
+        </div>
+      }
+    </div>
+  </div>
+</section>
+
+<!-- Lightbox -->
+@if (current(); as p) {
+  <div
+    class="fixed inset-0 z-[60] flex items-center justify-center bg-black/80 p-4 backdrop-blur-sm sm:p-8"
+    role="dialog"
+    aria-modal="true"
+    [attr.aria-label]="p.name + ' screenshot'"
+    (click)="close()"
+    animate.enter="animate-fade-in"
+    animate.leave="animate-fade-out"
+  >
+    <figure class="animate-pop-in relative w-full max-w-6xl" (click)="$event.stopPropagation()">
+      <img
+        [src]="p.image"
+        [alt]="'Screenshot of ' + p.name"
+        width="1440"
+        height="900"
+        class="max-h-[78vh] w-full rounded-2xl border border-white/10 object-contain shadow-2xl"
+      />
+      <figcaption class="mt-4 flex flex-wrap items-center justify-between gap-3 text-white">
+        <div>
+          <p class="text-lg font-bold">{{ p.name }}</p>
+          <p class="text-sm text-white/70">{{ p.type }} · {{ (lightbox() ?? 0) + 1 }} / {{ projects.length }}</p>
+        </div>
+        <a
+          [href]="p.url"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="inline-flex items-center gap-2 rounded-xl bg-white px-4 py-2 text-sm font-semibold text-black transition-transform hover:-translate-y-0.5"
+        >
+          Visit live site ↗
+        </a>
+      </figcaption>
+    </figure>
+
+    <!-- Controls -->
+    <button
+      #closeBtn
+      type="button"
+      (click)="close()"
+      class="absolute top-4 right-4 grid size-11 place-items-center rounded-full bg-white/10 text-white transition-colors hover:bg-white/20"
+      aria-label="Close preview"
+    >
+      <svg class="size-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
+        <path d="M6 6l12 12M18 6 6 18" />
+      </svg>
+    </button>
+    <button
+      type="button"
+      (click)="$event.stopPropagation(); step(-1)"
+      class="absolute top-1/2 left-2 grid size-11 -translate-y-1/2 place-items-center rounded-full bg-white/10 text-white transition-colors hover:bg-white/20 sm:left-4"
+      aria-label="Previous project"
+    >
+      <svg class="size-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
+        <path d="m15 6-6 6 6 6" />
+      </svg>
+    </button>
+    <button
+      type="button"
+      (click)="$event.stopPropagation(); step(1)"
+      class="absolute top-1/2 right-2 grid size-11 -translate-y-1/2 place-items-center rounded-full bg-white/10 text-white transition-colors hover:bg-white/20 sm:right-4"
+      aria-label="Next project"
+    >
+      <svg class="size-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
+        <path d="m9 6 6 6-6 6" />
+      </svg>
+    </button>
+  </div>
+}

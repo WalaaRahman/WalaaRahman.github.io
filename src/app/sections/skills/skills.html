@@ -1,0 +1,109 @@
+<section id="skills" class="relative py-24 sm:py-28" aria-labelledby="skills-title">
+  <div class="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
+    <app-section-heading
+      eyebrow="Toolbox"
+      title="Core Skills"
+      subtitle="The technologies, libraries and practices I use to turn designs into fast, maintainable products."
+      headingId="skills-title"
+    />
+
+    <!-- Category filter -->
+    <div appReveal class="mt-12 flex justify-center">
+      <div
+        role="tablist"
+        aria-label="Skill categories"
+        class="flex max-w-full gap-1.5 overflow-x-auto rounded-2xl border border-border bg-surface p-1.5 [scrollbar-width:none]"
+      >
+        @for (tab of tabs; track tab.id) {
+          @let selected = activeTab() === tab.id;
+          <button
+            type="button"
+            role="tab"
+            [id]="'skills-tab-' + tab.id"
+            [attr.aria-selected]="selected"
+            aria-controls="skills-panel"
+            (click)="select(tab.id)"
+            class="flex shrink-0 items-center gap-2 rounded-xl px-3.5 py-2 text-sm font-semibold whitespace-nowrap transition-all duration-300"
+            [class]="selected ? 'bg-primary text-on-primary shadow-md shadow-primary/25' : 'text-text/70 hover:bg-bg hover:text-primary'"
+          >
+            {{ tab.label }}
+            <span
+              class="rounded-md px-1.5 py-0.5 text-[11px] leading-none transition-colors"
+              [class]="selected ? 'bg-on-primary/20' : 'bg-bg'"
+            >
+              {{ tab.count }}
+            </span>
+          </button>
+        }
+      </div>
+    </div>
+
+    <!-- Skills grid -->
+    <div appReveal [revealDelay]="100" class="mt-10">
+      <ul
+        id="skills-panel"
+        role="tabpanel"
+        [attr.aria-labelledby]="'skills-tab-' + activeTab()"
+        class="grid grid-cols-2 gap-3 sm:grid-cols-3 sm:gap-4 md:grid-cols-4 lg:grid-cols-6"
+      >
+        @for (skill of visibleSkills(); track skill.name; let i = $index) {
+          <li animate.enter="animate-skill-in" [style.animation-delay.ms]="i * 35" class="group">
+            <div
+              appSpotlight
+              class="flex h-full flex-col items-center gap-3 rounded-2xl border border-border bg-surface px-3 py-5 text-center transition-all duration-300 group-hover:-translate-y-1.5 group-hover:border-primary/40 group-hover:shadow-xl group-hover:shadow-primary/10"
+            >
+              @if (skill.core) {
+                <span
+                  class="absolute top-2 right-2 grid size-5 place-items-center rounded-full bg-primary text-on-primary"
+                  title="Core strength"
+                >
+                  <svg class="size-3" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                    <path
+                      d="M9.05 2.93c.3-.92 1.6-.92 1.9 0l1.07 3.29a1 1 0 0 0 .95.69h3.46c.97 0 1.37 1.24.59 1.8l-2.8 2.04a1 1 0 0 0-.37 1.12l1.08 3.29c.3.92-.76 1.69-1.54 1.12l-2.8-2.03a1 1 0 0 0-1.18 0l-2.8 2.03c-.78.57-1.83-.2-1.54-1.12l1.08-3.29a1 1 0 0 0-.37-1.12L2.98 8.71c-.78-.56-.38-1.8.59-1.8h3.46a1 1 0 0 0 .95-.69l1.07-3.29Z"
+                    />
+                  </svg>
+                  <span class="sr-only">Core strength</span>
+                </span>
+              }
+
+              <span
+                class="grid size-14 place-items-center rounded-2xl transition-transform duration-500 ease-out group-hover:scale-110 group-hover:-rotate-6"
+                [style.background]="skill.tint"
+                [style.color]="skill.color"
+                aria-hidden="true"
+              >
+                <svg
+                  class="size-7"
+                  viewBox="0 0 24 24"
+                  [attr.fill]="skill.icon.stroke ? 'none' : 'currentColor'"
+                  [attr.stroke]="skill.icon.stroke ? 'currentColor' : null"
+                  [attr.stroke-width]="skill.icon.stroke ? 1.7 : null"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <path [attr.d]="skill.icon.path" />
+                </svg>
+              </span>
+
+              <span class="text-sm leading-tight font-semibold">{{ skill.name }}</span>
+              @if (skill.note) {
+                <span class="-mt-2 text-xs text-text/60">{{ skill.note }}</span>
+              }
+            </div>
+          </li>
+        }
+      </ul>
+    </div>
+
+    <p appReveal [revealDelay]="200" class="mt-8 flex items-center justify-center gap-2 text-sm text-text/60">
+      <span class="grid size-5 place-items-center rounded-full bg-primary text-on-primary" aria-hidden="true">
+        <svg class="size-3" viewBox="0 0 20 20" fill="currentColor">
+          <path
+            d="M9.05 2.93c.3-.92 1.6-.92 1.9 0l1.07 3.29a1 1 0 0 0 .95.69h3.46c.97 0 1.37 1.24.59 1.8l-2.8 2.04a1 1 0 0 0-.37 1.12l1.08 3.29c.3.92-.76 1.69-1.54 1.12l-2.8-2.03a1 1 0 0 0-1.18 0l-2.8 2.03c-.78.57-1.83-.2-1.54-1.12l1.08-3.29a1 1 0 0 0-.37-1.12L2.98 8.71c-.78-.56-.38-1.8.59-1.8h3.46a1 1 0 0 0 .95-.69l1.07-3.29Z"
+          />
+        </svg>
+      </span>
+      Strongest in Angular &amp; TypeScript
+    </p>
+  </div>
+</section>

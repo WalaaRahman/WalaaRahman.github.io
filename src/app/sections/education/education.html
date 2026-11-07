@@ -1,0 +1,139 @@
+<section id="education" class="relative isolate py-24 sm:py-28" aria-labelledby="education-title">
+  <!-- Soft band behind the section -->
+  <div class="pointer-events-none absolute inset-x-0 top-0 bottom-0 -z-10 bg-surface/50" aria-hidden="true"></div>
+
+  <div class="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
+    <app-section-heading
+      eyebrow="Learning"
+      title="Education & Professional Training"
+      subtitle="An engineering foundation, sharpened by hands-on web development programs and a software testing certification."
+      headingId="education-title"
+    />
+
+    <!-- Degree (featured) -->
+    <div appReveal="zoom" class="mt-16">
+      <article
+        appSpotlight
+        class="group overflow-hidden rounded-3xl border border-border bg-surface p-6 shadow-sm transition-all duration-300 hover:border-primary/40 hover:shadow-xl hover:shadow-primary/10 sm:p-8 lg:p-10"
+      >
+        <div class="grid gap-8 lg:grid-cols-[auto_1fr_auto] lg:items-center">
+          <div
+            class="grid size-16 place-items-center rounded-2xl bg-primary text-on-primary shadow-lg shadow-primary/25 transition-transform duration-500 group-hover:-rotate-6 group-hover:scale-105 sm:size-20"
+            aria-hidden="true"
+          >
+            <svg class="size-9 sm:size-11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M22 10 12 5 2 10l10 5 10-5Z" />
+              <path d="M6 12v5c3 2 9 2 12 0v-5" />
+              <path d="M22 10v6" />
+            </svg>
+          </div>
+
+          <div>
+            <p class="text-xs font-semibold tracking-widest text-secondary uppercase">Degree · {{ degree.period }}</p>
+            <h3 class="mt-2 text-xl font-extrabold tracking-tight sm:text-2xl">{{ degree.title }}</h3>
+            <p class="mt-1 font-semibold text-primary">{{ degree.field }}</p>
+            <p class="mt-1 text-sm text-text/70">{{ degree.institution }}</p>
+          </div>
+
+          <dl class="grid gap-3 sm:grid-cols-3 lg:w-[26rem] lg:grid-cols-1 xl:w-[30rem]">
+            @for (fact of degree.facts; track fact.label; let i = $index) {
+              <div
+                appReveal="right"
+                [revealDelay]="150 + i * 100"
+                class="flex items-center justify-between gap-3 rounded-xl border border-border bg-bg/70 px-4 py-3"
+                [class]="fact.highlight ? 'border-primary/40' : ''"
+              >
+                <dt class="text-xs font-medium text-text/60">{{ fact.label }}</dt>
+                <dd class="flex items-center gap-1.5 text-right text-sm font-bold" [class.text-primary]="fact.highlight">
+                  @if (fact.highlight) {
+                    <svg class="size-4" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                      <path
+                        d="M9.05 2.93c.3-.92 1.6-.92 1.9 0l1.07 3.29a1 1 0 0 0 .95.69h3.46c.97 0 1.37 1.24.59 1.8l-2.8 2.04a1 1 0 0 0-.37 1.12l1.08 3.29c.3.92-.76 1.69-1.54 1.12l-2.8-2.03a1 1 0 0 0-1.18 0l-2.8 2.03c-.78.57-1.83-.2-1.54-1.12l1.08-3.29a1 1 0 0 0-.37-1.12L2.98 8.71c-.78-.56-.38-1.8.59-1.8h3.46a1 1 0 0 0 .95-.69l1.07-3.29Z"
+                      />
+                    </svg>
+                  }
+                  {{ fact.value }}
+                </dd>
+              </div>
+            }
+          </dl>
+        </div>
+      </article>
+    </div>
+
+    <!-- Training & certification -->
+    <div class="mt-6 grid gap-6 md:grid-cols-2">
+      @for (item of training; track item.short; let i = $index) {
+        <div appReveal="up" [revealDelay]="i * 120" [class]="item.featured ? 'md:row-span-2' : ''" class="flex">
+          <article
+            appSpotlight
+            class="group flex w-full flex-col rounded-3xl border border-border bg-surface p-6 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:border-primary/40 hover:shadow-xl hover:shadow-primary/10 sm:p-8"
+          >
+            <div class="flex items-start justify-between gap-4">
+              <div class="flex items-center gap-3">
+                <span
+                  class="grid size-12 place-items-center rounded-2xl bg-primary/10 text-primary transition-all duration-500 group-hover:rotate-6 group-hover:bg-primary group-hover:text-on-primary"
+                  aria-hidden="true"
+                >
+                  @switch (item.icon) {
+                    @case ('certificate') {
+                      <svg class="size-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="12" cy="9" r="6" />
+                        <path d="m9.5 9 1.7 1.7L14.5 7.5" />
+                        <path d="M8.5 14.2 7 22l5-3 5 3-1.5-7.8" />
+                      </svg>
+                    }
+                    @default {
+                      <svg class="size-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="m8 8-4 4 4 4" />
+                        <path d="m16 8 4 4-4 4" />
+                        <path d="m13.5 5-3 14" />
+                      </svg>
+                    }
+                  }
+                </span>
+                <div>
+                  <p class="text-lg font-extrabold tracking-tight text-primary">{{ item.short }}</p>
+                  <p class="text-xs font-medium text-text/60">{{ item.kind }}</p>
+                </div>
+              </div>
+              <span class="rounded-full border border-border bg-bg px-3 py-1 text-xs font-bold">{{ item.year }}</span>
+            </div>
+
+            <h3 class="mt-6 text-lg leading-snug font-bold sm:text-xl">{{ item.title }}</h3>
+            @if (item.short !== item.institution) {
+              <p class="mt-1 text-sm text-text/70">{{ item.institution }}</p>
+            }
+
+            @if (item.description) {
+              <p class="mt-4 text-sm leading-relaxed text-text/80 sm:text-[15px]">{{ item.description }}</p>
+            }
+
+            @if (item.points.length) {
+              <ul class="mt-5 space-y-3 text-sm leading-relaxed text-text/80 sm:text-[15px]">
+                @for (point of item.points; track $index) {
+                  <li class="flex gap-3">
+                    <svg class="mt-0.5 size-5 shrink-0 text-primary" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                      <path
+                        fill-rule="evenodd"
+                        d="M16.7 5.3a1 1 0 0 1 0 1.4l-8 8a1 1 0 0 1-1.4 0l-4-4a1 1 0 1 1 1.4-1.4L8 12.58l7.3-7.3a1 1 0 0 1 1.4 0Z"
+                        clip-rule="evenodd"
+                      />
+                    </svg>
+                    <span>{{ point }}</span>
+                  </li>
+                }
+              </ul>
+            }
+
+            <ul class="mt-auto flex flex-wrap gap-2 pt-6" aria-label="Topics">
+              @for (tag of item.tags; track tag) {
+                <li class="chip">{{ tag }}</li>
+              }
+            </ul>
+          </article>
+        </div>
+      }
+    </div>
+  </div>
+</section>
