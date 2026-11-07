@@ -11,6 +11,12 @@ Personal portfolio of **Walaa El Gohary**, Frontend Developer, built with **Angu
 - **Animations:** scroll-reveal, a cursor spotlight on cards, and a timeline line that fills as you scroll. All of these respect `prefers-reduced-motion`.
 - **Responsive and accessible:** a mobile menu, keyboard support (Esc and arrow keys in the lightbox), ARIA roles and labels.
 
+**Live site:** https://walaarahman.github.io/
+
+## Deployment
+
+Every push to `main` runs [`.github/workflows/deploy.yml`](.github/workflows/deploy.yml). It installs dependencies, runs the tests, builds the static prerendered site and publishes it to GitHub Pages.
+
 ## Getting started
 
 ```bash
